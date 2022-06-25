@@ -1,10 +1,9 @@
-import Chat from "./chat/chat";
-import Process from "./process/process";
-import Home from "./home/home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.scss";
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import io from "socket.io-client";
+import "./App.scss";
+import Chat from "./chat/chat";
+import Home from "./home/home";
 
 const socket = io.connect('/');
 
@@ -17,9 +16,6 @@ function Appmain(props) {
           roomname={props.match.params.roomname}
           socket={socket}
         />
-      </div>
-      <div className="left">
-        <Process />
       </div>
     </React.Fragment>
   );

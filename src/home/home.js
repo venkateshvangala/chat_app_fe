@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Homepage({ socket }) {
   const [username, setusername] = useState("");
-  const [roomname, setroomname] = useState("");
+  const [roomname, setroomname] = useState("venkat");
   //activates joinRoom function defined on the backend
   const sendData = () => {
     if (username !== "" && roomname !== "") {
@@ -24,11 +24,7 @@ function Homepage({ socket }) {
         value={username}
         onChange={(e) => setusername(e.target.value)}
       ></input>
-      <input
-        placeholder="Input the room name"
-        value={roomname}
-        onChange={(e) => setroomname(e.target.value)}
-      ></input>
+     
       <Link to={`/chat/${roomname}/${username}`}>
         <button onClick={sendData}>Join</button>
       </Link>

@@ -1,8 +1,10 @@
 import "./chat.scss";
-// import { to_Decrypt, to_Encrypt } from "../aes.js";
 import { process } from "../store/action/index";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import * as axios from "axios";
+import * as _ from "underscore";
+
 //gets the data from the action object and reducers defined earlier
 function Chat({ username, roomname, socket }) {
   const [text, setText] = useState("");
@@ -15,9 +17,24 @@ function Chat({ username, roomname, socket }) {
   };
 
   useEffect(() => {
+    const serverUrl = "http://localhost:8000/chat_history";
+    axios.get(serverUrl)
+    .then(function(res) {
+      console.log(res.data)
+      let chatData = _.map(res.data, (item) => {
+        return {
+          userId: item.userId,
+          username: item.userName,
+          text: item.messages,
+        }
+      })
+      setMessages(chatData);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
     socket.on("message", (data) => {
-      //decypt the message
-      // const ans = to_Decrypt(data.text, data.username);
       const ans = data.text;
       dispatchProcess(false, ans, data.text);
       console.log(ans);
@@ -33,8 +50,6 @@ function Chat({ username, roomname, socket }) {
 
   const sendData = () => {
     if (text !== "") {
-      //encrypt the message here
-      // const ans = to_Encrypt(text);
       const ans = text;
       socket.emit("chat", ans);
       setText("");

@@ -13,7 +13,7 @@ function Appmain(props) {
       <div className="right">
         <Chat
           username={props.match.params.username}
-          roomname={props.match.params.roomname}
+          roomname={props.match.params.roomname ? props.match.params.roomname : "venkat"}
           socket={socket}
         />
       </div>
